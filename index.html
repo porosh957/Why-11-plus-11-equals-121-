@@ -1,0 +1,646 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Why 11 × 11 = 121 Tutorial</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+        body {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100%;
+            color: #333;
+        }
+
+        .tutorial-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .main-title {
+            font-size: 3rem;
+            color: #2d3748;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .intro-text {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .method-tabs {
+            display: flex;
+            justify-content: center;
+            margin: 40px 0;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .tab-button {
+            background: #e2e8f0;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: #4a5568;
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .tab-button:hover:not(.active) {
+            background: #cbd5e0;
+            transform: translateY(-1px);
+        }
+
+        .method-content {
+            display: none;
+            background: #f7fafc;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            border-left: 5px solid #667eea;
+        }
+
+        .method-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .method-title {
+            font-size: 1.8rem;
+            color: #2d3748;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .visual-grid {
+            display: grid;
+            grid-template-columns: repeat(11, 1fr);
+            gap: 2px;
+            max-width: 400px;
+            margin: 20px auto;
+            background: #e2e8f0;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .grid-cell {
+            aspect-ratio: 1;
+            background: #667eea;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .grid-cell:hover {
+            background: #764ba2;
+            transform: scale(1.1);
+        }
+
+        .grid-cell.highlighted {
+            background: #ffd700;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .calculation-steps {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+            border: 2px solid #e2e8f0;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            padding: 15px;
+            background: #f7fafc;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .step:hover {
+            background: #edf2f7;
+            transform: translateX(5px);
+        }
+
+        .step-number {
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            flex: 1;
+            font-size: 1.1rem;
+        }
+
+        .highlight-number {
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            color: #333;
+            display: inline-block;
+            margin: 0 5px;
+        }
+
+        .pattern-display {
+            text-align: center;
+            font-size: 2rem;
+            font-family: 'Courier New', monospace;
+            background: #2d3748;
+            color: #ffd700;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            letter-spacing: 3px;
+        }
+
+        .interactive-button {
+            background: linear-gradient(135deg, #48bb78, #38a169);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            margin: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .interactive-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(72, 187, 120, 0.4);
+        }
+
+        .magic-reveal {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 30px 0;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .conclusion-section {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .conclusion-text {
+            font-size: 1.2rem;
+            line-height: 1.6;
+        }
+
+        .fun-fact {
+            background: #fff3cd;
+            border: 2px solid #ffeaa7;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 5px solid #ffd700;
+        }
+
+        .fun-fact-title {
+            font-weight: bold;
+            color: #856404;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+            .tutorial-container {
+                padding: 20px;
+            }
+            
+            .main-title {
+                font-size: 2rem;
+            }
+            
+            .method-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .visual-grid {
+                grid-template-columns: repeat(11, 1fr);
+                max-width: 300px;
+            }
+            
+            .pattern-display {
+                font-size: 1.5rem;
+                letter-spacing: 1px;
+            }
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="tutorial-container">
+   <div class="header">
+    <h1 class="main-title" id="mainTitle">The Magic of 11 × 11 = 121</h1>
+    <p class="intro-text" id="introText">Discover the beautiful patterns and multiple ways to understand why eleven times eleven equals one hundred twenty-one!</p>
+   </div>
+   <div class="method-tabs"><button class="tab-button active" onclick="showMethod('visual')">🎨 Visual Method</button> <button class="tab-button" onclick="showMethod('pattern')">🔢 Pattern Method</button> <button class="tab-button" onclick="showMethod('algebra')">📐 Algebra Method</button> <button class="tab-button" onclick="showMethod('traditional')">✏️ Traditional Method</button>
+   </div><!-- Visual Method -->
+   <div id="visual" class="method-content active">
+    <h2 class="method-title">🎨 Visual Grid Method</h2>
+    <p>Let's see 11 × 11 as a grid of squares. Click the button below to build the grid step by step!</p>
+    <div style="text-align: center; margin: 20px 0;"><button class="interactive-button" onclick="animateGrid()">Build the 11×11 Grid</button> <button class="interactive-button" onclick="resetGrid()">Reset Grid</button>
+    </div>
+    <div class="visual-grid" id="visualGrid"></div>
+    <div class="magic-reveal">
+     <div>
+      Total squares in the grid: <span id="gridCount">0</span>
+     </div>
+     <div style="margin-top: 10px;">
+      11 rows × 11 columns = <strong>121 squares!</strong>
+     </div>
+    </div>
+   </div><!-- Pattern Method -->
+   <div id="pattern" class="method-content">
+    <h2 class="method-title">🔢 The Beautiful Pattern</h2>
+    <p>There's a magical pattern when multiplying by 11. Watch this!</p>
+    <div class="pattern-display" id="patternDisplay">
+     11 × 11 = ?
+    </div><button class="interactive-button" onclick="revealPattern()">Reveal the Pattern!</button>
+    <div class="calculation-steps">
+     <div class="step">
+      <div class="step-number">
+       1
+      </div>
+      <div class="step-content">
+       Look at the digits of 11: <span class="highlight-number">1</span> and <span class="highlight-number">1</span>
+      </div>
+     </div>
+     <div class="step">
+      <div class="step-number">
+       2
+      </div>
+      <div class="step-content">
+       Write the first digit: <span class="highlight-number">1</span>_ _
+      </div>
+     </div>
+     <div class="step">
+      <div class="step-number">
+       3
+      </div>
+      <div class="step-content">
+       Add the digits together: 1 + 1 = <span class="highlight-number">2</span>
+      </div>
+     </div>
+     <div class="step">
+      <div class="step-number">
+       4
+      </div>
+      <div class="step-content">
+       Write the last digit: _ _ <span class="highlight-number">1</span>
+      </div>
+     </div>
+     <div class="step">
+      <div class="step-number">
+       5
+      </div>
+      <div class="step-content">
+       Result: <span class="highlight-number">1</span><span class="highlight-number">2</span><span class="highlight-number">1</span>
+      </div>
+     </div>
+    </div>
+    <div class="fun-fact">
+     <div class="fun-fact-title">
+      🎯 Fun Fact!
+     </div> This pattern works for other two-digit numbers multiplied by 11 too! Try 23 × 11: 2_(2+3)_3 = 253
+    </div>
+   </div><!-- Algebra Method -->
+   <div id="algebra" class="method-content">
+    <h2 class="method-title">📐 The Algebra Way</h2>
+    <p>Let's use the algebraic identity (a + b)² = a² + 2ab + b² where a = 10 and b = 1</p>
+    <div class="calculation-steps">
+     <div class="step">
+      <div class="step-number">
+       1
+      </div>
+      <div class="step-content">
+       Write 11 as: <span class="highlight-number">10 + 1</span>
+      </div>
+     </div>
+     <div class="step">
+      <div class="step-number">
+       2
+      </div>
+      <div class="step-content">
+       So 11² = <span class="highlight-number">(10 + 1)²</span>
+      </div>
+     </div>
+     <div class="step">
+      <div class="step-number">
+       3
+      </div>
+      <div class="step-content">
+       Using (a + b)² = a² + 2ab + b²
+      </div>
+     </div>
+     <div class="step">
+      <div class="step-number">
+       4
+      </div>
+      <div class="step-content">
+       = <span class="highlight-number">10²</span> + <span class="highlight-number">2(10)(1)</span> + <span class="highlight-number">1²</span>
+      </div>
+     </div>
+     <div class="step">
+      <div class="step-number">
+       5
+      </div>
+      <div class="step-content">
+       = <span class="highlight-number">100</span> + <span class="highlight-number">20</span> + <span class="highlight-number">1</span>
+      </div>
+     </div>
+     <div class="step">
+      <div class="step-number">
+       6
+      </div>
+      <div class="step-content">
+       = <span class="highlight-number">121</span>
+      </div>
+     </div>
+    </div><button class="interactive-button" onclick="animateAlgebra()">Animate the Steps</button>
+   </div><!-- Traditional Method -->
+   <div id="traditional" class="method-content">
+    <h2 class="method-title">✏️ Traditional Multiplication</h2>
+    <p>The classic way we learned in school - let's break it down step by step!</p>
+    <div class="pattern-display" style="text-align: left; font-size: 1.5rem;">
+     <div id="traditionalSteps">
+      <div>
+       11
+      </div>
+      <div>
+       × 11
+      </div>
+      <div>
+       ----
+      </div>
+      <div id="step1" style="opacity: 0.3;">
+       11 (11 × 1)
+      </div>
+      <div id="step2" style="opacity: 0.3;">
+       110 (11 × 10)
+      </div>
+      <div id="step3" style="opacity: 0.3;">
+       ----
+      </div>
+      <div id="step4" style="opacity: 0.3;">
+       121
+      </div>
+     </div>
+    </div><button class="interactive-button" onclick="animateTraditional()">Show Steps</button>
+    <div class="calculation-steps">
+     <div class="step">
+      <div class="step-number">
+       1
+      </div>
+      <div class="step-content">
+       11 × 1 = <span class="highlight-number">11</span>
+      </div>
+     </div>
+     <div class="step">
+      <div class="step-number">
+       2
+      </div>
+      <div class="step-content">
+       11 × 10 = <span class="highlight-number">110</span> (shift one place left)
+      </div>
+     </div>
+     <div class="step">
+      <div class="step-number">
+       3
+      </div>
+      <div class="step-content">
+       Add them up: 11 + 110 = <span class="highlight-number">121</span>
+      </div>
+     </div>
+    </div>
+   </div>
+   <div class="conclusion-section">
+    <h2>🎉 The Magic Revealed!</h2>
+    <p class="conclusion-text" id="conclusionText">No matter which method you choose - visual grids, number patterns, algebra, or traditional multiplication - they all lead to the same beautiful answer: 121! Mathematics shows us that there are many paths to the same truth, and each one reveals something special about how numbers work together.</p>
+   </div>
+  </div>
+  <script>
+        const defaultConfig = {
+            main_title: "The Magic of 11 × 11 = 121",
+            intro_text: "Discover the beautiful patterns and multiple ways to understand why eleven times eleven equals one hundred twenty-one!",
+            conclusion_text: "No matter which method you choose - visual grids, number patterns, algebra, or traditional multiplication - they all lead to the same beautiful answer: 121! Mathematics shows us that there are many paths to the same truth, and each one reveals something special about how numbers work together."
+        };
+
+        let gridAnimationRunning = false;
+
+        function showMethod(methodId) {
+            // Hide all method contents
+            document.querySelectorAll('.method-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab-button').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected method and activate tab
+            document.getElementById(methodId).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function createGrid() {
+            const grid = document.getElementById('visualGrid');
+            grid.innerHTML = '';
+            
+            for (let i = 0; i < 121; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'grid-cell';
+                cell.style.opacity = '0';
+                grid.appendChild(cell);
+            }
+        }
+
+        function animateGrid() {
+            if (gridAnimationRunning) return;
+            gridAnimationRunning = true;
+            
+            createGrid();
+            const cells = document.querySelectorAll('.grid-cell');
+            const counter = document.getElementById('gridCount');
+            let count = 0;
+            
+            cells.forEach((cell, index) => {
+                setTimeout(() => {
+                    cell.style.opacity = '1';
+                    cell.style.transform = 'scale(1.1)';
+                    count++;
+                    counter.textContent = count;
+                    
+                    setTimeout(() => {
+                        cell.style.transform = 'scale(1)';
+                    }, 100);
+                    
+                    if (index === cells.length - 1) {
+                        setTimeout(() => {
+                            gridAnimationRunning = false;
+                        }, 500);
+                    }
+                }, index * 20);
+            });
+        }
+
+        function resetGrid() {
+            const grid = document.getElementById('visualGrid');
+            grid.innerHTML = '';
+            document.getElementById('gridCount').textContent = '0';
+            gridAnimationRunning = false;
+        }
+
+        function revealPattern() {
+            const display = document.getElementById('patternDisplay');
+            const steps = [
+                "11 × 11 = ?",
+                "1 _ _ (first digit)",
+                "1 2 _ (1+1=2)",
+                "1 2 1 (last digit)",
+                "11 × 11 = 121 ✨"
+            ];
+            
+            let stepIndex = 0;
+            const interval = setInterval(() => {
+                display.textContent = steps[stepIndex];
+                stepIndex++;
+                
+                if (stepIndex >= steps.length) {
+                    clearInterval(interval);
+                    display.style.background = 'linear-gradient(135deg, #48bb78, #38a169)';
+                    setTimeout(() => {
+                        display.style.background = '#2d3748';
+                    }, 2000);
+                }
+            }, 1000);
+        }
+
+        function animateAlgebra() {
+            const steps = document.querySelectorAll('#algebra .step');
+            steps.forEach((step, index) => {
+                setTimeout(() => {
+                    step.style.background = '#e6fffa';
+                    step.style.transform = 'translateX(10px)';
+                    step.style.borderLeft = '4px solid #48bb78';
+                    
+                    setTimeout(() => {
+                        step.style.background = '#f7fafc';
+                        step.style.transform = 'translateX(0)';
+                        step.style.borderLeft = 'none';
+                    }, 1000);
+                }, index * 800);
+            });
+        }
+
+        function animateTraditional() {
+            const steps = ['step1', 'step2', 'step3', 'step4'];
+            steps.forEach((stepId, index) => {
+                setTimeout(() => {
+                    const step = document.getElementById(stepId);
+                    step.style.opacity = '1';
+                    step.style.color = '#48bb78';
+                    step.style.fontWeight = 'bold';
+                    
+                    setTimeout(() => {
+                        step.style.color = '#ffd700';
+                    }, 500);
+                }, index * 800);
+            });
+        }
+
+        function render(config) {
+            document.getElementById('mainTitle').textContent = config.main_title || defaultConfig.main_title;
+            document.getElementById('introText').textContent = config.intro_text || defaultConfig.intro_text;
+            document.getElementById('conclusionText').textContent = config.conclusion_text || defaultConfig.conclusion_text;
+        }
+
+        // Initialize grid on load
+        createGrid();
+
+        // Initialize Element SDK
+        if (window.elementSdk) {
+            window.elementSdk.init({
+                defaultConfig,
+                render,
+                mapToCapabilities: (config) => ({
+                    recolorables: [],
+                    borderables: [],
+                    fontEditable: undefined,
+                    fontSizeable: undefined
+                }),
+                mapToEditPanelValues: (config) => new Map([
+                    ["main_title", config.main_title || defaultConfig.main_title],
+                    ["intro_text", config.intro_text || defaultConfig.intro_text],
+                    ["conclusion_text", config.conclusion_text || defaultConfig.conclusion_text]
+                ])
+            });
+        }
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99299d5fb328b252',t:'MTc2MTE0MjYxMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
